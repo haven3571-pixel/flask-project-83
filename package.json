@@ -1,0 +1,25 @@
+{
+  "name": "flask-project-83",
+  "version": "1.0.0",
+  "description": "[![hexlet-check](https://github.com/haven3571-pixel/flask-project-83/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/haven3571-pixel/flask-project-83/actions)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/haven3571-pixel/flask-project-83.git"
+  },
+  "keywords": [],
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/haven3571-pixel/flask-project-83/issues"
+  },
+  "homepage": "https://github.com/haven3571-pixel/flask-project-83#readme",
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.3.3",
+    "@tailwindcss/forms": "^0.5.11",
+    "tailwindcss": "^4.3.3"
+  },
+  "build:css": "tailwindcss --input assets/css/source.css --output page_analyzer/static/css/main.css --minify"
+}
