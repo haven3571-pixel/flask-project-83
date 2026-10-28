@@ -1,0 +1,37 @@
+{% extends 'base.html'%}
+
+
+{% block content %}
+<div class="w-full overflow-x-auto bg-white border border-gray-200 rounded-lg shadow-sm">
+<table data-test="urls" class="w-full text-left border-collapse text-sm text-gray-600">
+    <thead class="bg-gray-50 border-b border-gray-200 text-xs uppercase tracking-wider text-gray-500 font-semibold">
+    <tr>
+        <th scope="col" class="px-6 py-3.5">ID</th>
+        <th scope="col" class="px-6 py-3.5">Имя</th>
+        <th scope="col" class="px-6 py-3.5">Последняя проверка</th>
+        <th scope="col" class="px-6 py-3.5">Код ответа</th>
+    </tr>
+    </thead>
+    <tbody class="divide-y divide-gray-200">
+    {% for record in records %}
+        <tr class="hover:bg-gray-50/75 transition-colors">
+        <td class="px-6 py-4 font-mono text-gray-900 font-medium whitespace-nowrap">
+            {{ record.id }}
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap">
+            <a href="{{ url_for('page_get', id=record.id) }}" class="text-blue-600 hover:text-blue-800 hover:underline font-medium">
+            {{ record.name }}
+            </a>
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-gray-500">
+            {{ record.last_check_date or '' }}
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-gray-500">
+            
+        </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+</div>
+{% endblock %}

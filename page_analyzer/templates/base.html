@@ -7,6 +7,23 @@
     <title>Document</title>
 </head>
 <body>
+    <header class="bg-white border-b border-gray-200">
+        <a href="{{ url_for('pages_index') }}" class="text-xl font-bold text-indigo-600">Сайты</a>
+    </header>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+<div
+class="w-full px-4 py-3 text-sm font-medium border-b flex items-center justify-between
+{% if category == 'success'%} bg-emerald-50 text-emerald-800 border-emerald-200
+{% elif category == 'error' %} bg-rose-50 text-rose-800 border-rose-200 {% endif %}"
+role="alert" 
+name="messages">
+{{ message }}
+{% endfor %}
+{% endif %}
+{% endwith %}
+</div>
     {% block content %}
     {% endblock%}
 </body>

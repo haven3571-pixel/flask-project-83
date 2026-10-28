@@ -1,0 +1,35 @@
+{% extends 'base.html'%}
+
+
+{% block content %}
+<div class="overflow-hidden bg-white border border-gray-200 rounded-lg shadow-sm">
+<table data-test="url" class="w-full text-left text-sm border-collapse">
+    <tbody class="divide-y divide-gray-200">
+    <tr>
+        <th scope="row" class="px-6 py-4 w-1/4 font-semibold text-gray-700 bg-gray-50">
+        ID
+        </th>
+        <td class="px-6 py-4 text-gray-900 font-mono">
+        {{ page.id }}
+        </td>
+    </tr>
+    <tr>
+        <th scope="row" class="px-6 py-4 font-semibold text-gray-700 bg-gray-50">
+        Имя
+        </th>
+        <td class="px-6 py-4 text-gray-900">
+        {{ page.name }}
+        </td>
+    </tr>
+    <tr>
+        <th scope="row" class="px-6 py-4 font-semibold text-gray-700 bg-gray-50">
+        Дата создания
+        </th>
+        <td class="px-6 py-4 text-gray-600">
+        {{ page.created_at.strftime('%Y-%m-%d %H:%M:%S') if page.created_at else '' }}
+        </td>
+    </tr>
+    </tbody>
+</table>
+</div>
+{% endblock %}
