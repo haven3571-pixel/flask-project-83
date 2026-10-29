@@ -45,8 +45,8 @@
       <tr>
         <th scope="col" class="px-6 py-3.5">ID</th>
         <th scope="col" class="px-6 py-3.5">Код ответа</th>
-        <th scope="col" class="px-6 py-3.5">title</th>
         <th scope="col" class="px-6 py-3.5">h1</th>
+        <th scope="col" class="px-6 py-3.5">title</th>
         <th scope="col" class="px-6 py-3.5">description</th>
         <th scope="col" class="px-6 py-3.5">Дата создания</th>
       </tr>
@@ -62,11 +62,11 @@
               {{ check.status_code }}
             </span>
           </td>
-          <td class="max-w-xs truncate px-6 py-4 text-gray-700" title="{{ check.title or '' }}">
-            {{ check.title or '' }}
-          </td>
           <td class="max-w-xs truncate px-6 py-4 text-gray-700" title="{{ check.h1 or '' }}">
             {{ check.h1 or '' }}
+          </td>
+          <td class="max-w-xs truncate px-6 py-4 text-gray-700" title="{{ check.title or '' }}">
+            {{ check.title or '' }}
           </td>
           <td class="max-w-sm truncate px-6 py-4 text-gray-500" title="{{ check.description or '' }}">
             {{ check.description or '' }}
