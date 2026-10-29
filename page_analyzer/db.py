@@ -56,15 +56,15 @@ class Repository:
                 result = cur.fetchone()
                 return result['id']
             
-    def save_check(self, url_id):
+    def save_check(self, url_id, status_code):
         with get_connection() as conn:
             with conn.cursor() as cur:
                 cur.execute(
                     """
-                    INSERT INTO url_checks(url_id)
-                    VALUES(%s)
+                    INSERT INTO url_checks(url_id, status_code)
+                    VALUES(%s, %s)
                     """,
-                    (url_id, )
+                    (url_id, status_code)
                 )
 
     def all_checks(self):

@@ -27,7 +27,7 @@
         {{ record.last_check.strftime('%Y-%m-%d %H:%M') if record.last_check else '' }}
         </td>
         <td class="px-6 py-4 whitespace-nowrap text-gray-500">
-            
+            {{ record.status_code }}
         </td>
         </tr>
     {% endfor %}

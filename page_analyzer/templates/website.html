@@ -34,24 +34,37 @@
     </tbody>
 </table>
 </div>
-<form method="post" action="/urls/1/checks">
-  <input type="submit" value="Запустить проверку">
+
+<form method="post" action="/urls/{{ page.id }}/checks">
+  <input class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-xl transition-all shadow-lg shadow-blue-500/20 active:scale-[0.98]" type="submit" value="Запустить проверку">
 </form>
 
-<table data-test="checks" class="w-full text-left text-sm border-collapse">
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Дата создания</th>
-    </tr>
-  </thead>
-  <tbody>
-  {% for check in checks%}
-    <tr>
-      <td>{{ check.id }}</td>
-      <td>{{ check.created_at }}</td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
+<div class="overflow-x-auto rounded-lg border border-gray-200 bg-white shadow-sm">
+  <table data-test="checks" class="w-full border-collapse text-left text-sm text-gray-600">
+    <thead class="bg-gray-50 border-b border-gray-200 text-xs font-semibold uppercase tracking-wider text-gray-500">
+      <tr>
+        <th scope="col" class="px-6 py-3.5">ID</th>
+        <th scope="col" class="px-6 py-3.5">Код состояния</th>
+        <th scope="col" class="px-6 py-3.5">Дата создания</th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-gray-200">
+      {% for check in checks %}
+        <tr class="transition-colors hover:bg-gray-50/75">
+          <td class="whitespace-nowrap px-6 py-4 font-mono font-medium text-gray-900">
+            {{ check.id }}
+          </td>
+          <td class="whitespace-nowrap px-6 py-4">
+            <span class="inline-flex items-center rounded-md px-2.5 py-0.5 text-xs font-medium {{ 'bg-green-100 text-green-800' if check.status_code == 200 else 'bg-red-100 text-red-800' }}">
+              {{ check.status_code }}
+            </span>
+          </td>
+          <td class="whitespace-nowrap px-6 py-4 text-gray-500">
+            {{ check.created_at.strftime('%Y-%m-%d %H:%M') if check.created_at else '' }}
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
 {% endblock %}

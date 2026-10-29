@@ -1,7 +1,7 @@
-from flask import Flask, render_template, request, flash, redirect, abort, get_flashed_messages, url_for
+from flask import Flask, render_template, request, flash, redirect, abort, get_flashed_messages, url_for, Response
 from dotenv import load_dotenv
 from page_analyzer.db import Repository
-import psycopg, os, validators
+import psycopg, os, validators,  requests
 
 
 load_dotenv()
@@ -41,13 +41,10 @@ def pages_index():
     urls = repo.all_posts()
     checks = repo.all_checks()
 
-    # Делаем словарь: {url_id: последняя_проверка}
-    # Так как проверки отсортированы по ASC, последняя перезапишет предыдущие
     last_checks = {}
     for check in checks:
         last_checks[check['url_id']] = check
 
-    # Формируем итоговый список
     records = []
     for url in urls:
         check = last_checks.get(url['id'])
@@ -74,7 +71,13 @@ def page_get_post(id):
     page = repo.find_by_id(id)
     if page:
         url_id = page.get('id')
-        repo.save_check(url_id)
-        flash('Успешная проверка')
+        try:
+            try_access = requests.get(page['name'], timeout=5)
+            try_access.raise_for_status()
+            status_code = try_access.status_code
+            repo.save_check(url_id, status_code)
+            flash('Успешная проверка')
+        except requests.RequestException as re:
+            flash('Ресурс недоступен')
         return redirect(url_for('page_get', id=url_id))
     
