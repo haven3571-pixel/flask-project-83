@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, flash, redirect, abort, get_f
 from dotenv import load_dotenv
 from page_analyzer.db import Repository
 from bs4 import BeautifulSoup
+from urllib.parse import urlparse
 import psycopg, os, validators,  requests
 
 
@@ -22,19 +23,23 @@ def index():
 
 @app.post('/urls')
 def pages_post():
-    name = request.form.get('url')
-    if name is None:
+    name = request.form.get('url', '').strip()
+
+    if not name or len(name) > 255 or not validators.url(name):
         flash('Некорректный URL', 'danger')
-        return render_template('index.html', name=name)
-    if len(name) > 255 or not validators.url(name):
-        flash('Неккоректный URL', 'danger')
-        return render_template('index.html', name=name)
-    if not repo.find_by_name(name):
-        repo.save(name)
-        flash('Страница успешно добавлена', 'success')
-        return redirect(url_for('index'))
-    flash('Страница уже существует', 'info')
-    return render_template('index.html')
+        return render_template('index.html', url=name), 422
+
+    parsed = urlparse(name)
+    normalized_url = f"{parsed.scheme}://{parsed.netloc}"
+
+    existing_url = repo.find_by_name(normalized_url)
+    if existing_url:
+        flash('Страница уже существует', 'info')
+        return redirect(url_for('page_get', id=existing_url['id']))
+
+    new_id = repo.save(normalized_url)
+    flash('Страница успешно добавлена', 'success')
+    return redirect(url_for('page_get', id=new_id))
 
 
 @app.get('/urls')
