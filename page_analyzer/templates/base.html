@@ -9,6 +9,7 @@
 <body>
     <header class="bg-white border-b border-gray-200">
         <a href="{{ url_for('pages_index') }}" class="text-xl font-bold text-indigo-600">Сайты</a>
+        <a class="navbar-brand" href="{{ url_for('index') }}">Анализатор страниц</a>
     </header>
     {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}

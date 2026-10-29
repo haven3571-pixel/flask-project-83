@@ -24,16 +24,16 @@ def index():
 def pages_post():
     name = request.form.get('url')
     if name is None:
-        flash('Неккоректный URL', 'error')
+        flash('Некорректный URL', 'danger')
         return render_template('index.html', name=name)
     if len(name) > 255 or not validators.url(name):
-        flash('Неккоректный URL', 'error')
+        flash('Неккоректный URL', 'danger')
         return render_template('index.html', name=name)
     if not repo.find_by_name(name):
         repo.save(name)
-        flash('Адрес успешно добавлен', 'success')
+        flash('Страница успешно добавлена', 'success')
         return redirect(url_for('index'))
-    flash('URL-адрес уже был добавлен', 'error')
+    flash('Страница уже существует', 'info')
     return render_template('index.html')
 
 
@@ -93,8 +93,8 @@ def page_get_post(id):
                 description_text = "Не найден"
             status_code = try_access.status_code
             repo.save_check(url_id, status_code, heading_1_text, title_text, description_text)
-            flash('Успешная проверка')
+            flash('Страница успешно проверена', 'success')
         except requests.RequestException as re:
-            flash('Ресурс недоступен')
+            flash('Произошла ошибка при проверке', 'danger')
         return redirect(url_for('page_get', id=url_id))
     
