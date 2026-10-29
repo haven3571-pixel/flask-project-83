@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, flash, redirect, abort, get_flashed_messages, url_for, Response
 from dotenv import load_dotenv
 from page_analyzer.db import Repository
+from bs4 import BeautifulSoup
 import psycopg, os, validators,  requests
 
 
@@ -74,8 +75,24 @@ def page_get_post(id):
         try:
             try_access = requests.get(page['name'], timeout=5)
             try_access.raise_for_status()
+            soup = BeautifulSoup(try_access.text, 'html.parser')
+            heading_1 = soup.find('h1')
+            if heading_1:
+                heading_1_text = heading_1.text
+            else:
+                heading_1_text = "Не найден"
+            title = soup.find('title')
+            if title:
+                title_text = heading_1.text[:200] + "..."
+            else:
+                title_text = "Не найден"
+            description = soup.find('meta', attrs={'name': 'description'})
+            if description:
+                description_text = description['content'][:200] + "..."
+            else:
+                description_text = "Не найден"
             status_code = try_access.status_code
-            repo.save_check(url_id, status_code)
+            repo.save_check(url_id, status_code, heading_1_text, title_text, description_text)
             flash('Успешная проверка')
         except requests.RequestException as re:
             flash('Ресурс недоступен')

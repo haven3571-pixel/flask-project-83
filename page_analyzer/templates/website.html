@@ -44,7 +44,10 @@
     <thead class="bg-gray-50 border-b border-gray-200 text-xs font-semibold uppercase tracking-wider text-gray-500">
       <tr>
         <th scope="col" class="px-6 py-3.5">ID</th>
-        <th scope="col" class="px-6 py-3.5">Код состояния</th>
+        <th scope="col" class="px-6 py-3.5">Код ответа</th>
+        <th scope="col" class="px-6 py-3.5">title</th>
+        <th scope="col" class="px-6 py-3.5">h1</th>
+        <th scope="col" class="px-6 py-3.5">description</th>
         <th scope="col" class="px-6 py-3.5">Дата создания</th>
       </tr>
     </thead>
@@ -55,9 +58,18 @@
             {{ check.id }}
           </td>
           <td class="whitespace-nowrap px-6 py-4">
-            <span class="inline-flex items-center rounded-md px-2.5 py-0.5 text-xs font-medium {{ 'bg-green-100 text-green-800' if check.status_code == 200 else 'bg-red-100 text-red-800' }}">
+            <span class="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset {{ 'bg-green-50 text-green-700 ring-green-600/20' if check.status_code == 200 else 'bg-yellow-50 text-yellow-700 ring-yellow-600/20' }}">
               {{ check.status_code }}
             </span>
+          </td>
+          <td class="max-w-xs truncate px-6 py-4 text-gray-700" title="{{ check.title or '' }}">
+            {{ check.title or '' }}
+          </td>
+          <td class="max-w-xs truncate px-6 py-4 text-gray-700" title="{{ check.h1 or '' }}">
+            {{ check.h1 or '' }}
+          </td>
+          <td class="max-w-sm truncate px-6 py-4 text-gray-500" title="{{ check.description or '' }}">
+            {{ check.description or '' }}
           </td>
           <td class="whitespace-nowrap px-6 py-4 text-gray-500">
             {{ check.created_at.strftime('%Y-%m-%d %H:%M') if check.created_at else '' }}
