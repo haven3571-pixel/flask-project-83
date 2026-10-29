@@ -1,5 +1,7 @@
 {
   "files.associations": {
     "*.html": "jinja-html"
-  }
+  },
+  "python.terminal.useEnvFile": true,
+  "makefile.configureOnOpen": false
 }

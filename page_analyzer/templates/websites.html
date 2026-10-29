@@ -24,7 +24,7 @@
             </a>
         </td>
         <td class="px-6 py-4 whitespace-nowrap text-gray-500">
-            {{ record.last_check_date or '' }}
+        {{ record.last_check.strftime('%Y-%m-%d %H:%M') if record.last_check else '' }}
         </td>
         <td class="px-6 py-4 whitespace-nowrap text-gray-500">
             
@@ -34,4 +34,5 @@
     </tbody>
 </table>
 </div>
+
 {% endblock %}

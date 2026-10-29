@@ -55,3 +55,38 @@ class Repository:
                 )
                 result = cur.fetchone()
                 return result['id']
+            
+    def save_check(self, url_id):
+        with get_connection() as conn:
+            with conn.cursor() as cur:
+                cur.execute(
+                    """
+                    INSERT INTO url_checks(url_id)
+                    VALUES(%s)
+                    """,
+                    (url_id, )
+                )
+
+    def all_checks(self):
+        with get_connection() as conn:
+            with conn.cursor(row_factory=dict_row) as cur:
+                    # Сортируем от старых к новым, чтобы более свежие проверки 
+             # перезаписывали старые в словаре Python
+                cur.execute("SELECT * FROM url_checks ORDER BY created_at ASC;")
+                return cur.fetchall()
+
+    def all_checks_by_id(self, id):
+        with get_connection() as conn:
+            with conn.cursor() as cur:
+                cur.execute(
+                """
+                SELECT *
+                FROM url_checks
+                WHERE url_checks.url_id = %s
+                """,
+                (id, )
+                )
+                return cur.fetchall()
+                
+                
+

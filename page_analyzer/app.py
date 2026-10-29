@@ -38,13 +38,43 @@ def pages_post():
 
 @app.get('/urls')
 def pages_index():
-    records = repo.all_posts()
-    if records:
-        return render_template('websites.html', records=records)
+    urls = repo.all_posts()
+    checks = repo.all_checks()
+
+    # Делаем словарь: {url_id: последняя_проверка}
+    # Так как проверки отсортированы по ASC, последняя перезапишет предыдущие
+    last_checks = {}
+    for check in checks:
+        last_checks[check['url_id']] = check
+
+    # Формируем итоговый список
+    records = []
+    for url in urls:
+        check = last_checks.get(url['id'])
+        records.append({
+            'id': url['id'],
+            'name': url['name'],
+            'last_check': check['created_at'] if check else None,
+            'status_code': check['status_code'] if check else None,
+        })
+
+    return render_template('websites.html', records=records)
     
     
 @app.get('/urls/<id>')
 def page_get(id):
     page = repo.find_by_id(id)
+    checks = repo.all_checks_by_id(id)
     if page:
-        return render_template('website.html', page=page)
+        return render_template('website.html', page=page, checks=checks)
+
+
+@app.post('/urls/<id>/checks')
+def page_get_post(id):
+    page = repo.find_by_id(id)
+    if page:
+        url_id = page.get('id')
+        repo.save_check(url_id)
+        flash('Успешная проверка')
+        return redirect(url_for('page_get', id=url_id))
+    
