@@ -85,17 +85,17 @@ def page_get_post(id):
             if heading_1:
                 heading_1_text = heading_1.text
             else:
-                heading_1_text = "Не найден"
+                heading_1_text = ""
             title = soup.find('title')
             if title:
-                title_text = heading_1.text[:200] + "..."
+                title_text = title.text
             else:
-                title_text = "Не найден"
+                title_text = ""
             description = soup.find('meta', attrs={'name': 'description'})
             if description:
-                description_text = description['content'][:200] + "..."
+                description_text = description['content']
             else:
-                description_text = "Не найден"
+                description_text = ""
             status_code = try_access.status_code
             repo.save_check(url_id, status_code, heading_1_text, title_text, description_text)
             flash('Страница успешно проверена', 'success')

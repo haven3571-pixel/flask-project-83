@@ -63,13 +63,13 @@
             </span>
           </td>
           <td class="max-w-xs truncate px-6 py-4 text-gray-700" title="{{ check.h1 or '' }}">
-            {{ check.h1 or '' }}
+            {{ (check.h1 or '')|truncate(200) }}
           </td>
           <td class="max-w-xs truncate px-6 py-4 text-gray-700" title="{{ check.title or '' }}">
-            {{ check.title or '' }}
+            {{ (check.title or '')|truncate(200) }}
           </td>
           <td class="max-w-sm truncate px-6 py-4 text-gray-500" title="{{ check.description or '' }}">
-            {{ check.description or '' }}
+            {{ (check.description or '')|truncate(200) }}
           </td>
           <td class="whitespace-nowrap px-6 py-4 text-gray-500">
             {{ check.created_at.strftime('%Y-%m-%d %H:%M') if check.created_at else '' }}
